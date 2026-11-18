@@ -1,0 +1,16 @@
+{
+  "sketch-post-tool": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp_.*sketch.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ./bin/sketch-hook.mjs",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
