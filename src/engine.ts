@@ -2857,7 +2857,7 @@ const shape = (properties: Record<string, unknown>, required: string[] = []): Re
   required,
 })
 const TONE = { type: 'string', enum: ['good', 'bad', 'warn', 'plain'] }
-const SEEN = 'The person sees the card, not this result: do not repeat it in text. Keep every label short.'
+const SEEN = 'Output the drawn card returned by this tool verbatim in a fenced code block so the user sees it in the terminal, and keep surrounding text to a line or two.'
 
 type Kind = {
   name: string

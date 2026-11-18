@@ -1,6 +1,76 @@
+import fs from 'node:fs'
+import http from 'node:http'
 import readline from 'node:readline'
 import { getAppHtml } from './app-ui.ts'
 import { GUIDE, KINDS, renderCard } from './engine.ts'
+
+const cardHtmlStore = new Map<string, string>()
+let httpPort = 0
+
+const ensureHttpServer = (): Promise<number> => {
+  if (httpPort > 0) return Promise.resolve(httpPort)
+  return new Promise(resolve => {
+    const srv = http.createServer((req, res) => {
+      const url = req.url ?? '/'
+      const m = url.match(/^\/card\/([a-zA-Z0-9_-]+)/)
+      const id = m?.[1]
+      const html = id ? cardHtmlStore.get(id) : Array.from(cardHtmlStore.values()).pop()
+      if (!html) {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
+        res.end('Sketch card not found')
+        return
+      }
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store',
+      })
+      res.end(html)
+    })
+    srv.on('error', () => {
+      // Fallback to random port if 18923 is in use
+      srv.listen(0, '127.0.0.1', () => {
+        const addr = srv.address()
+        httpPort = typeof addr === 'object' && addr ? addr.port : 0
+        resolve(httpPort)
+      })
+    })
+    srv.listen(18923, '127.0.0.1', () => {
+      const addr = srv.address()
+      httpPort = typeof addr === 'object' && addr ? addr.port : 18923
+      resolve(httpPort)
+    })
+    srv.unref()
+  })
+}
+
+const buildInteractiveHtml = (tool: string, input: unknown): string => {
+  const payloadScript = `<script>window.__SKETCH_INITIAL_DATA__ = ${JSON.stringify({ tool, input }).replace(/</g, '\\u003c')};</script>\n`
+  return getAppHtml().replace('</head>', `${payloadScript}</head>`)
+}
+
+const saveInteractiveCard = async (tool: string, title: string, input: unknown): Promise<{ url?: string; filePath?: string }> => {
+  const html = buildInteractiveHtml(tool, input)
+  const cardId = `${ tool }-${ Date.now().toString(36) }`
+  cardHtmlStore.set(cardId, html)
+  const port = await ensureHttpServer()
+  const url = port > 0 ? `http://127.0.0.1:${port}/card/${cardId}` : undefined
+
+  let filePath: string | undefined
+  try {
+    const dir = '/tmp/sketch-cards'
+    fs.mkdirSync(dir, { recursive: true })
+    const slug = (title || tool || 'card')
+      .toLowerCase()
+      .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40) || 'card'
+    filePath = `${dir}/${slug}.html`
+    fs.writeFileSync(filePath, html, 'utf8')
+  } catch {
+    // ignore
+  }
+  return { url, filePath }
+}
 
 const APP_URI = 'ui://sketch/card.html'
 const SERVER_INFO = {
@@ -135,11 +205,8 @@ export const handleRequest = async (req: any): Promise<any> => {
       }
     }
 
-    const drawn = `Drawn for the person: ${rendered.summary}. Do not repeat it in text.`
-    const compareHint =
-      rendered.tool === 'compare' && rendered.model?.isAsking !== false
-        ? ' The options are shown side-by-side with an interactive selector.'
-        : ''
+    const { url: interactiveUrl } = await saveInteractiveCard(rendered.tool, rendered.title, args)
+    const linkLine = interactiveUrl ? `\n\n互動式圖卡預覽：${interactiveUrl}` : ''
 
     return {
       jsonrpc: '2.0',
@@ -148,7 +215,7 @@ export const handleRequest = async (req: any): Promise<any> => {
         content: [
           {
             type: 'text',
-            text: `${drawn}${compareHint}`,
+            text: `Drawn card (${rendered.summary}). Output the following card verbatim inside a \`\`\`text code block in your response${interactiveUrl ? ` and print the plain URL ${interactiveUrl} below the code block so the user can Cmd+Click it in the terminal` : ''}, keeping surrounding text to 1-2 lines:\n\n\`\`\`text\n${rendered.ascii}\n\`\`\`${linkLine}`,
           },
         ],
         structuredContent: {

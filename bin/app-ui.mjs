@@ -930,7 +930,11 @@ window.addEventListener('message', (event) => {
   }
 });
 
-// Connect to MCP App Host on startup
+// Connect to MCP App Host on startup, or load embedded standalone payload
+if (window.__SKETCH_INITIAL_DATA__) {
+  loadCardPayload(window.__SKETCH_INITIAL_DATA__);
+}
+
 (async () => {
   try {
     const res = await requestRpc('ui/initialize', {

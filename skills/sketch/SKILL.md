@@ -10,7 +10,7 @@ description: >-
 
 # Sketch Visual Cards Skill
 
-The `sketch` plugin equips you with **17 specialized drawing tools** via the `sketch` MCP server (`sketch_sketch`). Whenever an answer has a structural, temporal, spatial, or quantitative shape, call the matching tool to draw a visual card and keep surrounding text to one or two sentences.
+The `sketch` plugin equips you with **17 specialized drawing tools** via the `sketch` MCP server (`sketch_sketch`). Whenever an answer has a structural, temporal, spatial, or quantitative shape, call the matching tool to draw a visual card and output the resulting card in your response.
 
 ## Tool Selection Matrix
 
@@ -32,14 +32,11 @@ The `sketch` plugin equips you with **17 specialized drawing tools** via the `sk
 | `metrics` | KPI number tiles with headline value, delta badge, and Braille sparkline from `series` | KPI snapshots, A/B experiment results, performance summaries |
 | `chart` | 9 chart kinds: `bar`, `column`, `stacked`, `line`, `scatter`, `heatmap`, `histogram`, `funnel`, `share` | Any quantitative dataset you already have (never invent numbers) |
 | `cards` | Side-by-side cards with title, subtitle, tags, bullet lines, and verbatim quote | User personas, research findings, design principles, risk cards |
-| `compare` | 2 to 4 side-by-side option cards with summary, pros (`+`), cons (`−`), effort (`≈`), recommended badge (`★`), and interactive picker | Weighing architectural, product, or library decisions |
+| `compare` | 2 to 4 side-by-side option cards with summary, pros (`+`), cons (`−`), effort (`≈`), and recommended badge (`★`) | Weighing architectural, product, or library decisions |
 
 ## Key Guidelines
 
-1. **Do Not Repeat the Card in Text**: The user sees the rendered card directly in the conversation (both as an interactive MCP App in Antigravity IDE / Desktop and as an inline box-drawing card in the `agy` CLI). Only write 1–2 lines of high-level context or takeaway around the tool call.
-2. **Keep Labels Short**: Node labels, edge labels, and step names should be 1–4 words so boxes stay compact and scannable.
-3. **Interactive Diagrams (`diagram` & `schema`)**:
-   - Group related nodes with `group` so they share a theme color.
-   - Use meaningful node shapes: `person` for users/actors, `decision` for branches, `store` for databases/queues, `external` for third-party systems, `round` for start/end/states.
-   - Users can **hover** any node to highlight all its outgoing wires and **click** any node name to focus its wires in heavy strokes with an animated pulse flow.
+1. **Always Output the Drawn Card in Your Reply**: Because tool results are collapsed in the `agy` CLI terminal, always paste the box-drawing card returned by the `sketch` tool verbatim inside a ```` ```text ```` fenced code block in your response.
+2. **Keep Surrounding Text Brief**: Write only 1–2 lines of context around the card. Do not repeat the card's contents in long prose paragraphs.
+3. **Keep Labels Short**: Node labels, edge labels, and step names should be 1–4 words so boxes stay compact and aligned.
 4. **Truthfulness**: Only plot numbers, entities, and quotes that actually exist in the context or user input. Never fabricate metrics to fill a chart.
