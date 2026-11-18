@@ -3,14 +3,14 @@ name: sketch
 description: >-
   Draws 17 types of interactive visual cards (layers, diagram, schema, swimlane,
   pipeline, gitgraph, sequence, tree, timeline, board, quadrant, journey,
-  wireframe, metrics, chart, cards, compare) directly in the conversation
-  instead of long text paragraphs. Activate when explaining system architecture,
-  flows, data models, roadmaps, UI wireframes, metrics, charts, or option comparisons.
+  wireframe, metrics, chart, cards, compare) in the conversation. Activate ONLY
+  when the user asks for a diagram/chart/visual explanation, or when explaining
+  complex system architectures, multi-step flows, schemas, roadmaps, or option comparisons.
 ---
 
 # Sketch Visual Cards Skill
 
-The `sketch` plugin equips you with **17 specialized drawing tools** via the `sketch` MCP server (`sketch_sketch`). Whenever an answer has a structural, temporal, spatial, or quantitative shape, call the matching tool to draw a visual card and output the resulting card in your response.
+The `sketch` plugin equips you with **17 specialized drawing tools** via the `sketch` MCP server (`sketch_sketch`). Use these tools **when the user asks for a visual diagram/chart**, or when **explaining complex architectures, multi-step workflows, schemas, roadmaps, or quantitative comparisons** where a visual diagram is significantly clearer than prose. Do **not** use them for simple Q&A, yes/no questions, or routine command/coding tasks.
 
 ## Tool Selection Matrix
 
@@ -36,7 +36,7 @@ The `sketch` plugin equips you with **17 specialized drawing tools** via the `sk
 
 ## Key Guidelines
 
-1. **Always Output the Drawn Card in Your Reply**: Because tool results are collapsed in the `agy` CLI terminal, always paste the box-drawing card returned by the `sketch` tool verbatim inside a ```` ```text ```` fenced code block in your response.
-2. **Keep Surrounding Text Brief**: Write only 1–2 lines of context around the card. Do not repeat the card's contents in long prose paragraphs.
-3. **Keep Labels Short**: Node labels, edge labels, and step names should be 1–4 words so boxes stay compact and aligned.
-4. **Truthfulness**: Only plot numbers, entities, and quotes that actually exist in the context or user input. Never fabricate metrics to fill a chart.
+1. **Be Selective**: Answer simple questions, yes/no checks, and short explanations in plain text. Only draw a card when visual structure genuinely helps or is requested.
+2. **Always Output the Drawn Card in Your Reply**: Because tool results are collapsed in the `agy` CLI terminal, always paste the box-drawing card returned by the `sketch` tool verbatim inside a ```` ```text ```` fenced code block in your response.
+3. **Keep Surrounding Text Brief**: Write only 1–2 lines of context around the card. Do not repeat the card's contents in long prose paragraphs.
+4. **Keep Labels Short & Truthful**: Node labels, edge labels, and step names should be 1–4 words. Never fabricate metrics or nodes to fill a card.

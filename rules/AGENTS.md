@@ -1,28 +1,36 @@
 # Visual Answers (Sketch Plugin)
 
-The user reads in a terminal or chat view and finds long paragraphs hard to follow. Whenever the content has a shape, draw the shape with a `sketch` MCP tool and keep the text around it to a line or two. This holds for any field: engineering, product, design, research, and planning.
+Use the `sketch` MCP tools (`sketch_sketch`) **judiciously**—only when a visual diagram, flow, roadmap, or chart genuinely makes a complex explanation clearer, or when the user explicitly asks for a diagram/visualization.
 
-- **What a system is made of** (layers of components, nested zones, cross-cutting side concerns): use the `layers` tool (`sketch_sketch:layers`).
-- **How things connect** (architecture wiring, a flow or process with decisions, dependencies): use the `diagram` tool (`sketch_sketch:diagram`), with `layout: "zones"` to frame subsystems or boundaries (such as VPCs or C4 containers) and `layout: "matrix"` when dependencies are too dense for wires; a state machine is a `diagram` too (self-edges render as loops inside nodes).
-- **Tables and their relations, or classes and their members**: use the `schema` tool (`sketch_sketch:schema`).
-- **A process across roles or systems**: use the `swimlane` tool (`sketch_sketch:swimlane`).
-- **Stages left to right** (CI/CD, ETL, a data or build flow): use the `pipeline` tool (`sketch_sketch:pipeline`).
-- **Branches, merges and releases over time**: use the `gitgraph` tool (`sketch_sketch:gitgraph`).
-- **Who calls whom in order** (request flows, protocols, handoffs): use the `sequence` tool (`sketch_sketch:sequence`).
-- **A hierarchy, breakdown or mind map** (OKRs, sitemaps, file layouts, taxonomies): use the `tree` tool (`sketch_sketch:tree`), with `layout: "list"` or `layout: "mindmap"`.
-- **A plan over time, a roadmap or schedule**: use the `timeline` tool (`sketch_sketch:timeline`).
-- **Work by status or theme** (kanban, now/next/later): use the `board` tool (`sketch_sketch:board`).
-- **Prioritising on two axes, positioning, or SWOT**: use the `quadrant` tool (`sketch_sketch:quadrant`).
-- **A user journey or service blueprint** (stages with mood curve and rows of notes): use the `journey` tool (`sketch_sketch:journey`).
-- **A screen or page layout** (desktop or mobile low-fidelity sketch): use the `wireframe` tool (`sketch_sketch:wireframe`).
-- **Numbers**: use the `chart` tool (`sketch_sketch:chart` — `bar`, `column`, `stacked`, `line`, `scatter`, `heatmap`, `histogram`, `funnel`, `share`); for a handful of headline KPIs with trends, use the `metrics` tool (`sketch_sketch:metrics`).
-- **Personas, findings, principles, feature summaries**: use the `cards` tool (`sketch_sketch:cards`).
-- **A choice between two to four options**: use the `compare` tool (`sketch_sketch:compare`), which draws side-by-side option cards with pros, cons, effort, and recommendation.
-- **A plain list of facts or a small comparison with no better shape**: use a Markdown table.
+## When NOT to Use Sketch Tools
 
-## Displaying the Drawn Card in the Conversation
+- **Simple Q&A and direct answers**: Never draw a card for yes/no questions, quick factual answers, config checks, or explanations that only take a few sentences. Answer those directly in plain text.
+- **Routine coding, debugging, and CLI tasks**: Do not draw cards for routine file edits, bug fixes, command outputs, or git operations unless the user asks to visualize them.
+- **Small lists**: Use plain bullet points or a small Markdown table.
 
-In the `agy` CLI terminal, MCP tool call results are collapsed by default. Therefore, after calling any `sketch` tool:
-1. **Always include the drawn box-drawing card returned by the tool verbatim inside a fenced ```` ```text ```` code block in your reply** so the user immediately sees the visual card in the terminal.
-2. Keep the prose around the card to 1–2 concise sentences. Do not write long paragraphs repeating what is already inside the card.
-3. Keep every label short: a card is for scanning, and detail belongs in a follow-up when asked. Draw only what is true: never invent numbers, nodes, or quotes to fill a card.
+## When to Use Sketch Tools
+
+Reach for a `sketch` tool when the user **asks for a diagram/chart/comparison**, or when explaining **genuinely complex structures or multi-step flows** where prose paragraphs would be hard to follow:
+
+- **What a complex system is made of** (layers of components, nested zones, cross-cutting side concerns): `layers` (`sketch_sketch:layers`).
+- **How components connect or flow** (architecture wiring, multi-branch flowcharts, state machines, C4 boundaries with `layout: "zones"`, or dense dependency grids with `layout: "matrix"`): `diagram` (`sketch_sketch:diagram`).
+- **Database tables or class hierarchies** (entities with `pk`/`fk` fields and relations): `schema` (`sketch_sketch:schema`).
+- **Cross-role or cross-system handoffs**: `swimlane` (`sketch_sketch:swimlane`).
+- **Left-to-right stage pipelines** (CI/CD, ETL, build flows): `pipeline` (`sketch_sketch:pipeline`).
+- **Git branching, merging, and release strategies**: `gitgraph` (`sketch_sketch:gitgraph`).
+- **Ordered request/response protocols between actors**: `sequence` (`sketch_sketch:sequence`).
+- **Complex hierarchies, OKR breakdowns, or mind maps**: `tree` (`sketch_sketch:tree`, `layout: "list"` or `"mindmap"`).
+- **Project roadmaps or schedules across periods**: `timeline` (`sketch_sketch:timeline`).
+- **Kanban or work items by status/theme**: `board` (`sketch_sketch:board`).
+- **2x2 prioritization matrices or SWOT analysis**: `quadrant` (`sketch_sketch:quadrant`).
+- **User journeys or service blueprints with mood curves**: `journey` (`sketch_sketch:journey`).
+- **Page or mobile screen wireframes**: `wireframe` (`sketch_sketch:wireframe`).
+- **Quantitative datasets & KPIs**: `chart` (`sketch_sketch:chart` — `bar`, `column`, `stacked`, `line`, `scatter`, `heatmap`, `histogram`, `funnel`, `share`) or `metrics` (`sketch_sketch:metrics`).
+- **Structured personas, research findings, or design principles**: `cards` (`sketch_sketch:cards`).
+- **Weighing 2 to 4 architectural or product options**: `compare` (`sketch_sketch:compare`).
+
+## Displaying a Drawn Card
+
+When you do call a `sketch` tool:
+1. **Include the drawn box-drawing card returned by the tool verbatim inside a fenced ```` ```text ```` code block in your reply** so the user sees it in the terminal, along with the local interactive preview URL if provided.
+2. Keep the text around the card to 1–2 concise sentences, and keep labels inside the card short. Never invent numbers, nodes, or quotes to fill a card.

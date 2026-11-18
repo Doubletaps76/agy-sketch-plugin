@@ -3168,15 +3168,15 @@ export const KIND_OF = new Map(KINDS.map(kind => [toolOf(kind.name), kind]))
 const COMPARE = toolOf('compare')
 
 export const GUIDE = [
-  '# Visual answers (sketch mod)',
-  'The person reads in a terminal and finds long paragraphs hard to follow. Whenever the content has a shape, draw the shape with a sketch tool and keep the text around it to a line or two. This holds for any field: engineering, product, design, research, planning.',
-  `- What a system is made of (layers of components, zones, cross-cutting concerns): ${toolOf('layers')}. How things connect (architecture wiring, a flow or process with decisions, dependencies, a pipeline): ${toolOf('diagram')}, with layout "zones" to frame subsystems or boundaries and "matrix" when dependencies are dense; a state machine is a diagram too. Tables and their relations, or classes and their members: ${toolOf('schema')}. A process across roles or systems: ${toolOf('swimlane')}. Stages left to right (CI/CD, ETL, a data flow): ${toolOf('pipeline')}. Branches, merges and releases: ${toolOf('gitgraph')}. Who calls whom in order: ${toolOf('sequence')}. A hierarchy, breakdown or mind map: ${toolOf('tree')}.`,
+  '# Visual answers (sketch plugin)',
+  'Use a sketch tool when the user asks for a diagram/chart/visual explanation, or when explaining a complex architecture, multi-step flow, schema, roadmap, or comparison where a visual card is genuinely clearer than prose. Do NOT use sketch tools for simple Q&A, yes/no questions, or short explanations that only need a few sentences.',
+  `- What a complex system is made of (layers of components, zones, cross-cutting concerns): ${toolOf('layers')}. How things connect (architecture wiring, a flow or process with decisions, dependencies): ${toolOf('diagram')}, with layout "zones" to frame subsystems or boundaries and "matrix" when dependencies are dense; a state machine is a diagram too. Tables and their relations, or classes and their members: ${toolOf('schema')}. A process across roles or systems: ${toolOf('swimlane')}. Stages left to right (CI/CD, ETL, a data flow): ${toolOf('pipeline')}. Branches, merges and releases: ${toolOf('gitgraph')}. Who calls whom in order: ${toolOf('sequence')}. A hierarchy, breakdown or mind map: ${toolOf('tree')}.`,
   `- A plan over time, a roadmap or schedule: ${toolOf('timeline')}. Work by status or theme: ${toolOf('board')}.`,
   `- Prioritising on two axes, positioning, SWOT: ${toolOf('quadrant')}. A user journey or service blueprint: ${toolOf('journey')}. A screen or page layout: ${toolOf('wireframe')}.`,
   `- Numbers: ${toolOf('chart')} (bar, column, stacked, line, scatter, heatmap, histogram, funnel, share); a handful of headline numbers: ${toolOf('metrics')}.`,
-  `- Personas, findings, principles, feature summaries: ${toolOf('cards')}. A choice between two to four options: ${COMPARE}, which also asks the person to pick; act on what its result says and do not ask again in text.`,
-  '- A plain list of facts or a small comparison with no better shape: a markdown table.',
-  'The person sees the card, not the tool result, so never repeat a card in text. Keep labels short: a card is for scanning, and detail belongs in a follow-up when asked. Draw only what is true: no invented numbers, nodes or quotes to fill a card.',
+  `- Personas, findings, principles, feature summaries: ${toolOf('cards')}. A choice between two to four options: ${COMPARE}.`,
+  '- Simple Q&A or short answers: reply in plain text. A plain list of facts with no better shape: a markdown table.',
+  'When you call a sketch tool, output the drawn card inside a fenced code block and keep surrounding text to a line or two. Keep labels short and draw only what is true.',
 ].join('\n')
 
 // Which node each diagram card has focused, by tool_use_id (see types/).
