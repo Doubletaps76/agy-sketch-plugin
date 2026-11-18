@@ -1,0 +1,18 @@
+{
+  "name": "sketch",
+  "displayName": "Sketch",
+  "version": "0.2.2",
+  "description": "Draws interactive diagrams, layers, schemas, charts, roadmaps, user journeys, and wireframes as visual cards directly in the conversation instead of writing long paragraphs.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Draw the layered architecture and request flow of this project",
+    "Compare three database options for our workload and help me pick one",
+    "Create a Q3 product roadmap timeline and a user onboarding journey map"
+  ],
+  "author": {
+    "name": "Yuan",
+    "url": "https://github.com/Doubletaps76"
+  },
+  "homepage": "https://github.com/Doubletaps76/agy-sketch-plugin",
+  "repository": "https://github.com/Doubletaps76/agy-sketch-plugin"
+}

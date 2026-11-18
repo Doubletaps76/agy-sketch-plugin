@@ -10,10 +10,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Build
+# Build & Preview Temp
 dist/
 build/
-*.sketchplugin
+preview/*.json
 
 # Environment
 .env

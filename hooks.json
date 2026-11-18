@@ -1,0 +1,23 @@
+{
+  "sketch-card-renderer": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp_.*sketch.*|call_mcp_tool",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ./bin/sketch-hook.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "node ./bin/sketch-hook.mjs",
+        "timeout": 10
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "agy-sketch-plugin",
+  "version": "0.2.2",
+  "description": "Antigravity (AGY) Sketch Plugin — 17 interactive visual card tools (diagrams, layers, schemas, charts, roadmaps, journeys, wireframes, and comparisons) rendered directly in conversation.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview:en": "node preview/render.ts src/engine.ts 110 preview/cards.en.json ./samples.en.ts",
+    "preview:zh-TW": "node preview/render.ts src/engine.ts 110 preview/cards.zh-TW.json ./samples.zh-TW.ts",
+    "frames:en": "node preview/frames.ts src/engine.ts 110 ./samples.en.ts preview/anim-en",
+    "frames:zh-TW": "node preview/frames.ts src/engine.ts 110 ./samples.zh-TW.ts preview/anim-zh-TW",
+    "validate": "agy plugin validate . --strict",
+    "test": "node scripts/test.mjs"
+  }
+}
